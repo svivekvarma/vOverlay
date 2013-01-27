@@ -1,16 +1,22 @@
 ﻿(function ($) {
     var methods = {
         show: function (options) {
-            return this.each(function () {
-                console.log('this is the title' + options.title);
+            this.each(function () {
+                
                 var uniqueid = methods.getoverlayid();
                 $('<div class=\"window\" data-uniqueid=\"' + uniqueid + '\"></div>').appendTo('body').css("z-index", uniqueid + 100);
+                if (options.title) {
+                    $('<h2>' + options.title + '</h2>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                }
                 $(this).show();
+
                 $(this).appendTo('div.window[data-uniqueid=' + uniqueid + ']');
                 methods.centerelement(uniqueid);
                 $(window).resize(function () { methods.centerelement(uniqueid); });
                 $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid);
             });
+            options.onOpen();
+            return this;
         },
         hide: function () {
             return this.each(function () { 

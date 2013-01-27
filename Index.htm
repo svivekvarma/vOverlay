@@ -2,20 +2,20 @@
 <html>
 <head>
     <title></title>
-    <link href="voverlay.css" rel="stylesheet" type="text/css" />
+    <link href="overlayplugin/voverlay.css" rel="stylesheet" />
     <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="voverlay.js" type="text/javascript"></script>
+    <script src="overlayplugin/voverlay.js"></script>
 </head>
 <body>
     <div class="container">
         <!-- #customize your modal window here
         <div class="window">-->
-            <div class="testing">
-                <b>Testing of Modal Window</b>
-            </div>
+        <div class="testing">
+            <b>Testing of Modal Window</b>
+        </div>
         <div class="coals">
-                <b>Testing of Modal Window2</b>
-            </div>
+            <b>Testing of Modal Window2</b>
+        </div>
         <!--</div>
         <!-- Do not remove div#mask, because you'll need it to fill the whole screen 
         <div class="mask">
@@ -25,6 +25,6 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.testing').voverlay('show', {title:"test", closebutton:"yes", maskopacity:"0.24"});
+        $('.testing').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
     });
 </script>
