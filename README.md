@@ -7,4 +7,5 @@ Usage
 =====
 
 $('selector').voverlay('show');
+
 $('selector').voverlay('hide');
