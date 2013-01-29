@@ -94,7 +94,7 @@
                 }
             });
             return startnum;
-        },
+        }
     };
     $.fn.voverlay = function (method) {
         if (methods[method]) {
