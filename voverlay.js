@@ -3,7 +3,7 @@
         show: function (options) {
             this.each(function () {
                 var $this = $(this);
-                var uniqueid = methods.getoverlayid();
+                var uniqueid = methods.getnewoverlayid();
                 $('<div class=\"window\" data-uniqueid=\"' + uniqueid + '\"></div>').appendTo('body').css("z-index", uniqueid + 100);
                 if (options.title) {
                     $('<h2>' + options.title + '</h2>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
@@ -77,11 +77,11 @@
             }
 
         },
-        getoverlayid: function () {
+        getnewoverlayid: function () {
             var startnum = 1000;
             $('.window').each(function () {
-                if ($(this).attr('data-uniqueid') > startnum) {
-                    startnum = $(this).attr('data-uniqueid');
+                if (parseInt($(this).attr('data-uniqueid'), 10) > startnum) {
+                    startnum = parseInt($(this).attr('data-uniqueid'), 10);
                 }
             });
             return startnum + 1000;
@@ -89,8 +89,8 @@
         gettopmostoverlayid: function () {
             var startnum = -1;
             $('.window').each(function () {
-                if ($(this).attr('data-uniqueid') > startnum) {
-                    startnum = $(this).attr('data-uniqueid');
+                if (parseInt($(this).attr('data-uniqueid'), 10) > startnum) {
+                    startnum = parseInt($(this).attr('data-uniqueid'), 10);
                 }
             });
             return startnum;
