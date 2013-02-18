@@ -1,4 +1,19 @@
-﻿(function ($) {
+﻿/*
+==================================================================================================
+Author : Vivek Siruvuri
+ 
+Plugin Name : voverlay
+
+License : Creative Commons Attribution 3.0 Unported License
+
+GitHub Repository: https://github.com/svivekvarma/voverlay
+
+Contact Url : https://github.com/svivekvarma
+==================================================================================================
+*/
+
+
+(function ($) {
     var methods = {
         show: function (options) {
             this.each(function () {
