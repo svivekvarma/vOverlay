@@ -111,7 +111,10 @@ Contact Url : https://github.com/svivekvarma
                 } else {
                     settings.opacity = 0;
                     $this.show().addClass('voverlaycontent').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
-                    $('div.window[data-uniqueid=' + uniqueid + ']').css({position:"absolute", top: settings.clientY, left: settings.clientX });
+                    $('div.window[data-uniqueid=' + uniqueid + ']').css({ position: "absolute", top: settings.clientY, left: settings.clientX });
+                    $('div.window[data-uniqueid=' + uniqueid + ']').click(function (e) {
+                        e.stopPropagation();
+                    });
                 }
                 
                 $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid).css("opacity", settings.opacity);

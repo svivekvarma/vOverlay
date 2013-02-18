@@ -31,9 +31,12 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.testing').voverlay('show', { title: "test", opacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
-        $('.coals').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+        ///$('.testing').voverlay('show', { title: "test", opacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+        //$('.coals').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+        $('body').click(function (e) {
+            $('.coals').voverlay('show', {contextMode:true, clientX:e.clientX, clientY:e.clientY});
 
+        });
        
     });
 </script>
