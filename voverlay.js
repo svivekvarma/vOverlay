@@ -17,19 +17,24 @@ Contact Url : https://github.com/svivekvarma
 
     var defaults = {
         opacity: '0.25',
-        onOpen: {},
-        onClose: {},
-        minSpacing: 40
+        onOpen: function () { },
+        onClose: function () { },
+        minSpacing: 40,
+        contextMode: false,
+        inlinehtml: false,
+        html: "",
+        clientX :"",
+        clientY:"",
+        privateconfigs: {}
     };
     var settings = {};
 
     var voverlay = {
         gettopmostoverlayid: function () {
-            $this = $(this);
             var startnum = -1;
             $('.window').each(function () {
-                if (parseInt($this.attr('data-uniqueid'), 10) > startnum) {
-                    startnum = parseInt($this.attr('data-uniqueid'), 10);
+                if (parseInt($(this).attr('data-uniqueid'), 10) > startnum) {
+                    startnum = parseInt($(this).attr('data-uniqueid'), 10);
                 }
             });
             return startnum;
@@ -43,6 +48,11 @@ Contact Url : https://github.com/svivekvarma
             });
             return startnum + 1000;
         },
+        hideTopMost: function () {
+            var topmostid = voverlay.gettopmostoverlayid();
+            $('div.window[data-uniqueid=' + topmostid + ']').voverlay('hide');
+            //console.log('called hide');
+        },
         centerelement: function (uniqueid) {
             $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-y': 'none' });
             $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-x': 'none' });
@@ -52,14 +62,11 @@ Contact Url : https://github.com/svivekvarma
             var elemwidth = $('div.window[data-uniqueid=' + uniqueid + ']').outerWidth(true);
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
             var calculatedheight = ($(window).height() - elemheight) / 2;
-            console.log(calculatedwidth);
-            console.log(calculatedheight);
             if (calculatedwidth > settings.minSpacing) {
                 $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - elemwidth) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerWidth() - $('div.window[data-uniqueid=' + uniqueid + ']').width();
-                console.log('total padding' + totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - ($(window).width() - settings.minSpacing)) / 2 + 'px');
                 //$('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - 60);
@@ -70,7 +77,6 @@ Contact Url : https://github.com/svivekvarma
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerHeight() - $('div.window[data-uniqueid=' + uniqueid + ']').height();
-                console.log('total padding' + totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
 
                 $('div.window[data-uniqueid=' + uniqueid + ']').height($(window).height() - totalpaddingspacing);
@@ -79,37 +85,50 @@ Contact Url : https://github.com/svivekvarma
 
         }
     };
-    
+
     var methods = {
         show: function () {
             this.each(function () {
-                var $this = $(this);
+                var $this = $(this), data = settings;
+
                 var uniqueid = voverlay.getnewoverlayid();
+
+                settings.privateconfigs.uniqueid = uniqueid;
+
                 $('<div class=\"window\" data-uniqueid=\"' + uniqueid + '\"></div>').appendTo('body').css("z-index", uniqueid + 100);
-                if (options.title) {
-                    $('<h2>' + settings.title + '</h2>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                if (data.title) {
+                    $('<h2>' + data.title + '</h2>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
                 }
-                $(this).show();
-                $(this).addClass('voverlaycontent');
-                $(this).appendTo('div.window[data-uniqueid=' + uniqueid + ']');
-                voverlay.centerelement(uniqueid);
-                $(window).resize(function () { voverlay.centerelement(uniqueid); });
-                $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid).css("opacity",settings.opacity);
+
+                $this = $this.clone(true);
+                
+
+                if (!settings.contextMode) {
+                    $this.show().addClass('voverlaycontent').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                    voverlay.centerelement(uniqueid);
+                    $(window).resize(function () { voverlay.centerelement(uniqueid); });
+                   
+                } else {
+                    settings.opacity = 0;
+                    $this.show().addClass('voverlaycontent').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                    $('div.window[data-uniqueid=' + uniqueid + ']').css({position:"absolute", top: settings.clientY, left: settings.clientX });
+                }
+                
+                $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid).css("opacity", settings.opacity);
+
                 $('div.mask[data-uniqueid=' + uniqueid + ']').click(function () {
-                    $($this).voverlay('hide');
+                    //$('div.window[data-uniqueid=' + uniqueid + ']').voverlay('hide');
+                    $this.voverlay('hide');
                 });
 
-
                 $('div.window[data-uniqueid=' + uniqueid + ']').attr("tabindex", -1).focus();
-
-                //$('div.window[data-uniqueid=' + uniqueid + ']').attr("tabindex", -1).mouseover(function () { $(this).focus(); });
-                //$('div.window[data-uniqueid=' + uniqueid + ']').mouseleave(function () { $(this).blur(); });
 
                 $('div.window[data-uniqueid=' + uniqueid + ']').keyup(function (e) {
                     if (e.keyCode == 27) {
                         var topoverlayid = voverlay.gettopmostoverlayid();
                         if (topoverlayid > -1) {
                             $('div.window[data-uniqueid=' + topoverlayid + '] > .voverlaycontent').voverlay('hide');
+                            //$('div.window[data-uniqueid=' + topoverlayid + ']').voverlay('hide');
 
                             // Now set focus on new topmost overlay if there is one
 
@@ -121,22 +140,36 @@ Contact Url : https://github.com/svivekvarma
                         }
                     }
                 });
+
+                settings.privateconfigs.initialized = true;
+                settings.onOpen();
+                $this.data('voverlay', settings);
+
             });
-            settings.onOpen();
             return this;
         },
         hide: function () {
             return this.each(function () {
-                var uniqueid = $(this).parent('div.window').attr('data-uniqueid');
-                $(this).siblings('h2').remove();
-                $(this).unwrap().hide();
-                $(this).removeClass('voverlaycontent');
-                $('div.mask[data-uniqueid=' + uniqueid + ']').remove();
+                if ($(this).parent('.window').length > 0) {
+                    var $this = $(this), data = $this.data('voverlay');
+                    $('div.mask[data-uniqueid=' + $this.parent('.window').attr('data-uniqueid') + ']').remove();
+                    $this.parent('.window').remove();
+                    data.onClose();
+                    $this.removeData();
+                }
             });
         },
-        update: function (content) { }
+        resize: function () {
+            return this.each(function () {
+                if ($(this).parent('.window').length > 0) {
+                    var $this = $(this), data = $this.data('voverlay');
+                    uniqueid = $this.parent('.window').attr('data-uniqueid');
+                    voverlay.centerelement(uniqueid);
+                }
+            });
+        }
     };
-    $.fn.voverlay = function (method,options) {
+    $.fn.voverlay = function (method, options) {
         settings = $.extend({}, defaults, options);
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -146,5 +179,19 @@ Contact Url : https://github.com/svivekvarma
             $.error('Method ' + method + ' does not exist on jQuery.voverlay');
         }
     };
+
+    $.voverlay = {};
+    $.voverlay.popOverlay = function () {
+        voverlay.hideTopMost();
+    }
+
+    $.voverlay.show = function (options) {
+        //voverlay.hideTopMost();
+        settings = $.extend({}, defaults, options);
+        console.log(settings);
+        var $this = $('<div class="voverlaycontent"></div>').html(settings.html);
+        $this.voverlay('show', settings);
+        return settings.privateconfigs.uniqueid;
+    }
 
 })(jQuery);
