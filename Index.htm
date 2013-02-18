@@ -15,12 +15,6 @@
         </div>
         <div class="coals">
             <b class="anothertest">Testing of Modal Window2</b>
-            <div class="test" style="display:none">testing jfadskf;salfjka;f;alf
-                fjadsfjalfja
-                fajdfkalfa;ldjfa
-                afjaksdfjafjalfjald
-                fdjasfja;dfjakfjalfjla
-            </div>
         </div>
         <!--</div>
         <!-- Do not remove div#mask, because you'll need it to fill the whole screen 
@@ -31,12 +25,7 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        ///$('.testing').voverlay('show', { title: "test", opacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
-        //$('.coals').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
-        $('body').click(function (e) {
-            $('.coals').voverlay('show', {contextMode:true, clientX:e.clientX, clientY:e.clientY});
-
-        });
-       
+        $('.testing').voverlay('show', { title: "test", opacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+        $('.coals').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });  
     });
 </script>
