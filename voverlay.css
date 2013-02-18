@@ -23,7 +23,7 @@
     top: 0px;
     left: 0px;
     width: 100%;
-    opacity: 0.35;
+    /*opacity: 0.35;*/
 }
 
 .window {
@@ -33,7 +33,7 @@
     padding: 10px;
     background-color: #FFFFFF;
     border: 5px solid rgb(111, 106, 106);
-    border-radius: 3px;
+    border-radius: 5px;
 }
     .window h2 {
         margin: 10px 0px;
