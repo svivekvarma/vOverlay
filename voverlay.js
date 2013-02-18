@@ -18,14 +18,24 @@
                     $($this).voverlay('hide');
                 });
                 
-                $('div.window[data-uniqueid=' + uniqueid + ']').attr("tabindex", -1).mouseover(function () { $(this).focus(); });
-                $('div.window[data-uniqueid=' + uniqueid + ']').mouseleave(function () { $(this).blur(); });
+
+                $('div.window[data-uniqueid=' + uniqueid + ']').attr("tabindex", -1).focus();
+                
+                //$('div.window[data-uniqueid=' + uniqueid + ']').attr("tabindex", -1).mouseover(function () { $(this).focus(); });
+                //$('div.window[data-uniqueid=' + uniqueid + ']').mouseleave(function () { $(this).blur(); });
 
                 $('div.window[data-uniqueid=' + uniqueid + ']').keyup(function (e) {
                     if (e.keyCode == 27) {
                         var topoverlayid = methods.gettopmostoverlayid();
                         if (topoverlayid > -1) {
                             $('div.window[data-uniqueid=' + topoverlayid + '] > .voverlaycontent').voverlay('hide');
+
+                            // Now set focus on new topmost overlay if there is one
+
+                            var newtopmostid = methods.gettopmostoverlayid();
+                            if (newtopmostid > -1) {
+                                $('div.window[data-uniqueid=' + newtopmostid + ']').focus();
+                            }
                             e.preventDefault();
                         }
                     }
