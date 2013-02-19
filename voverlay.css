@@ -10,14 +10,14 @@
     height: 1024px;
 }
 
-.testing {
+.example1 {
     height: 800px;
     width: 1024px;
     display:none;
 }
 
-.coals {
-    display:block;
+.example2,.example3 {
+    display:none;
 }
 
 .mask {
