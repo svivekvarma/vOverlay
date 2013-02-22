@@ -11,13 +11,13 @@
 }
 
 .example1 {
-    height: 800px;
+    height: 300px;
     width: 1024px;
-    display:none;
+    display: none;
 }
 
-.example2,.example3 {
-    display:none;
+.example2, .example3 {
+    display: none;
 }
 
 .mask {
@@ -27,8 +27,7 @@
     display: block;
     top: 0px;
     left: 0px;
-    width: 100%;
-    /*opacity: 0.35;*/
+    width: 100%; /*opacity: 0.35;*/
 }
 
 .window {
@@ -40,9 +39,48 @@
     border: 5px solid rgb(111, 106, 106);
     border-radius: 5px;
 }
+
     .window h2 {
-        margin: 10px 0px;
+        margin: 0px 0px 0px 0px;
         text-align: center;
         width: 100%;
         background-color: darkgray;
     }
+
+.voverlaycontent {
+    margin: 15px 0px 0px 0px;
+}
+
+.voverlayclose {
+    text-indent: -1000000px;
+    float: right;
+    position: absolute;
+    /*float: right;*/
+    top: -2px;
+    right: -2px;
+    clear: both;
+    overflow: hidden;
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    margin: 3px;
+    vertical-align: middle;
+    cursor: pointer;
+    background: url('voverlayclose.png') 0px 0px;
+    background-repeat: no-repeat;
+}
+
+    .voverlayclose:hover {
+        background: url('voverlayclose.png') 0px -34px;
+    }
+
+.voverlaywrapped {
+    float: right;
+    position: static;
+    /*float: right;*/
+    clear: none;
+}
+
+.voverlaymodalactioncontainer {
+    text-align: right;
+}

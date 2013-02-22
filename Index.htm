@@ -8,11 +8,13 @@
 </head>
 <body>
     <div class="container">
-        <input class="launchexample1" type="button" value="Click me to launch overlay">
-        <p>Also click anywhere on the document to get a context menu</p>
+        <input class="launchexample1" type="button" value="Click me to launch overlay" />
+        <p>
+            Also click anywhere on the document to get a context menu
+        </p>
         <div class="example1">
             <b>Testing of Modal Window</b>
-            <input class="launchexample2" type="button" value="Click me to alunch another overlay">
+            <input class="launchexample2" type="button" value="Click me to alunch another overlay" />
         </div>
         <div class="example2">
             <b class="anothertest">Testing of Modal Window2</b>
@@ -28,20 +30,51 @@
 
         $('.launchexample1').click(function () {
 
-            $('.example1').voverlay('show', { title: "test", opacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+            $('.example1').voverlay('show', { title: "test", opacity: "0.24", modalMode: true, closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
 
         });
 
         $('.launchexample2').click(function () {
 
-            $('.example2').voverlay('show', { title: "test", closebutton: "yes", maskopacity: "0.24", closeOverride: false, onOpen: function () { console.log('Open event fired for overlay'); }, onClose: function () { console.log('Close event fired for overlay'); } });
+            $('.example2').voverlay('show', {
+                title: "test",
+                closebutton: "yes",
+                modalMode: true,
+
+                onModalYes: function () { console.log('yes from 2') },
+                modalButtonsToShow: ["yes", "no"],
+                modalYesButtonTemplate: function () { return '<a class="btn btn-mini" href="#"><i class="icon-star"></i> Star</a>'; },
+                maskopacity: "0.24",
+                closeOverride: false,
+                onOpen: function () { console.log('Open event fired for overlay example2'); },
+                onClose: function () { console.log('Close event fired for overlay example2'); }
+            });
 
         });
 
-        $('body').click(function (e) {
-            $('.example3').voverlay('show', {contextMode: true,clientX :e.clientX, clientY:e.clientY});
 
+        $.voverlay.show({
+            html: "Are you sure you want to delete this record?",
+            title: "test",
+            closebutton: "yes",
+            modalMode: true
         });
+
+
+        //        var one = setTimeout(function () {
+        //            $.voverlay.show({ html: "hello" });
+        //        }, 3000);
+
+
+        //        var one = setTimeout(function () {
+        //            $.voverlay.updateContent({ html: "hello anna" });
+        //        }, 6000);
+
+
+        //        $('body').click(function (e) {
+        //            $('.example3').voverlay('show', {contextMode: true,clientX :e.clientX, clientY:e.clientY});
+
+        //        });
 
     });
 </script>
