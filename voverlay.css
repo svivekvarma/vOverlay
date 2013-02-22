@@ -1,26 +1,4 @@
-﻿body {
-    background-color: white;
-}
-
-.container {
-    display: block;
-    width: 940px;
-    margin: 0px auto;
-    background-color: #FFCC99;
-    height: 1024px;
-}
-
-.example1 {
-    height: 300px;
-    width: 1024px;
-    display: none;
-}
-
-.example2, .example3 {
-    display: none;
-}
-
-.mask {
+﻿.mask {
     position: fixed;
     z-index: 1000;
     background-color: #000;
@@ -36,15 +14,16 @@
     z-index: 1100;
     padding: 10px;
     background-color: #FFFFFF;
-    border: 5px solid rgb(111, 106, 106);
+    border: 2px solid rgb(99, 94, 94);
     border-radius: 5px;
+    box-shadow: 1px 2px 5px black;
 }
 
     .window h2 {
         margin: 0px 0px 0px 0px;
-        text-align: center;
+        text-align: left;
         width: 100%;
-        background-color: darkgray;
+        border-bottom: 1px solid grey;
     }
 
 .voverlaycontent {
@@ -83,4 +62,5 @@
 
 .voverlaymodalactioncontainer {
     text-align: right;
+    padding: 10px 0px 0px 0px;
 }
