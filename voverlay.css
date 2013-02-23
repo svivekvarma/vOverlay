@@ -64,3 +64,7 @@
     text-align: right;
     padding: 10px 0px 0px 0px;
 }
+
+.voverlaymodalactioncontainer .voverlayModalYesButton, .voverlayModalNoButton,voverlayModalCancelButton {
+    margin:0px 5px;
+}
