@@ -1,4 +1,4 @@
-﻿.mask {
+.mask {
     position: fixed;
     z-index: 1000;
     background-color: #000;
@@ -63,6 +63,7 @@
 .voverlaymodalactioncontainer {
     text-align: right;
     padding: 10px 0px 0px 0px;
+    clear:both;
 }
 
 .voverlaymodalactioncontainer .voverlayModalYesButton, .voverlayModalNoButton,voverlayModalCancelButton {
