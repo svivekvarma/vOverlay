@@ -1,4 +1,4 @@
-﻿/*
+/*
 ==================================================================================================
 Author : Vivek Siruvuri
  
@@ -16,7 +16,7 @@ Contact Url : https://github.com/svivekvarma
 (function ($) {
 
     var defaults = {
-        opacity: '0.25',
+        maskOpacity: '0.25',
         onOpen: function () { },
         onClose: function () { },
         minSpacing: 40,
@@ -110,19 +110,19 @@ Contact Url : https://github.com/svivekvarma
 
                 settings.privateconfigs.uniqueid = uniqueid;
 
-                $('<div class=\"window\" data-uniqueid=\"' + uniqueid + '\"></div>').appendTo('body').css("z-index", uniqueid + 100);
+                $this.wrap($('<div class=\"window\" data-uniqueid=\"' + uniqueid + '\"></div>').css("z-index", uniqueid + 100));
                 if (data.title) {
                     if (data.showClose) {
-                        $('<h2>' + data.title + '</h2>').append($('<div class="voverlayclose voverlaywrapped clearfix" data-uniqueid="' + uniqueid + '">' + 'Close' + '</div>')).appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                        $('<h2>' + data.title + '</h2>').append($('<div class="voverlayclose voverlaywrapped clearfix" data-uniqueid="' + uniqueid + '"></div>')).appendTo('div.window[data-uniqueid=' + uniqueid + ']');
                     } else {
                         $('<h2>' + data.title + '</h2>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
                     }
 
                 } else if (data.showClose) {
-                    $('<div class="voverlayclose clearfix" data-uniqueid="' + uniqueid + '">' + 'Close' + '</div>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
+                    $('<div class="voverlayclose clearfix" data-uniqueid="' + uniqueid + '"></div>').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
                 }
 
-                $this = $this.clone(true);
+                //$this = $this.clone(true);
 
                 if (!settings.contextMode) {
                     $this.show().addClass('voverlaycontent').appendTo('div.window[data-uniqueid=' + uniqueid + ']');
@@ -157,7 +157,7 @@ Contact Url : https://github.com/svivekvarma
                             $this.voverlay('hide');
                         });
                     }
-                    
+
                     if ($.inArray("cancel", settings.modalButtonsToShow) > -1) {
                         $(settings.modalCancelButtonTemplate()).addClass('voverlayModalCancelButton').appendTo('div.window[data-uniqueid=' + uniqueid + '] > div.voverlaymodalactioncontainer');
                         $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer > .voverlayModalCancelButton').click(function () {
@@ -166,10 +166,10 @@ Contact Url : https://github.com/svivekvarma
                             $this.voverlay('hide');
                         });
                     }
-                    
+
                 }
 
-                $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid).css("opacity", settings.opacity);
+                $('<div class=\"mask\" data-uniqueid=\"' + uniqueid + '\"></div>').css("height", $(document).height()).appendTo('body').css("z-index", uniqueid).css("opacity", settings.maskOpacity);
 
                 $('div.mask[data-uniqueid=' + uniqueid + '], div.voverlayclose[data-uniqueid=' + uniqueid + ']').click(function () {
                     //$('div.window[data-uniqueid=' + uniqueid + ']').voverlay('hide');
@@ -207,8 +207,18 @@ Contact Url : https://github.com/svivekvarma
             return this.each(function () {
                 if ($(this).parent('.window').length > 0) {
                     var $this = $(this), data = $this.data('voverlay');
-                    $('div.mask[data-uniqueid=' + $this.parent('.window').attr('data-uniqueid') + ']').remove();
-                    $this.parent('.window').remove();
+                    var uniqueid = $this.parent('.window').attr('data-uniqueid');
+                    $('div.window[data-uniqueid=' + uniqueid + '] > h2').remove();
+                    $('div.window[data-uniqueid=' + uniqueid + '] > .voverlayclose').remove();
+                    $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer').remove();
+
+                    $('div.mask[data-uniqueid=' + uniqueid + ']').remove();
+                    //$this.parent('.window').remove();
+                    $this.unwrap();
+                    $this.hide();
+                    if ($this.hasClass('voverlayinline')) {
+                        $this.remove();
+                    }
                     data.onClose();
                     $this.removeData();
                 }
@@ -244,7 +254,7 @@ Contact Url : https://github.com/svivekvarma
         //voverlay.hideTopMost();
         settings = $.extend({}, defaults, options);
         console.log(settings);
-        var $this = $('<div></div>').html(settings.html);
+        var $this = $('<div class="voverlayinline"></div>').attr('data-uniqueid', voverlay.getnewoverlayid()).html(settings.html).appendTo('body');
         $this.voverlay('show', settings);
         return settings.privateconfigs.uniqueid;
     }
