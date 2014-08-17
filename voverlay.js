@@ -145,8 +145,9 @@ Contact Url : https://github.com/svivekvarma
                         $(settings.modalYesButtonTemplate()).addClass('voverlayModalYesButton').appendTo('div.window[data-uniqueid=' + uniqueid + '] > div.voverlaymodalactioncontainer');
                         $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer >  .voverlayModalYesButton').click(function () {
                             //$('div.window[data-uniqueid=' + uniqueid + ']').voverlay('hide');
-                            settings.onModalYes();
+                            if(settings.onModalYes()){
                             $this.voverlay('hide');
+							};
                         });
                     }
                     if ($.inArray("no", settings.modalButtonsToShow) > -1) {
