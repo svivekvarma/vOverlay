@@ -27,9 +27,9 @@ Contact Url : https://github.com/svivekvarma
         modalYesButtonTemplate: function () { return '<input value="Yes" type="button" />'; },
         modalNoButtonTemplate: function () { return '<input value="No" type="button" />'; },
         modalCancelButtonTemplate: function () { return '<input value="Cancel" type="button" />'; },
-        onModalYes: function () { console.log('yes function'); },
-        onModalNo: function () { console.log('no function'); },
-        onModalCancel: function () { console.log('cancel function'); },
+        onModalYes: function () { console.log('yes function'); return true;},
+        onModalNo: function () { console.log('no function'); return true; },
+        onModalCancel: function () { console.log('cancel function'); return true;},
         inlinehtml: false,
         html: "",
         clientX: "",
@@ -154,8 +154,9 @@ Contact Url : https://github.com/svivekvarma
                         $(settings.modalNoButtonTemplate()).addClass('voverlayModalNoButton').appendTo('div.window[data-uniqueid=' + uniqueid + '] > div.voverlaymodalactioncontainer');
                         $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer > .voverlayModalNoButton').click(function () {
                             //$('div.window[data-uniqueid=' + uniqueid + ']').voverlay('hide');
-                            settings.onModalNo();
+                            if(settings.onModalNo()){
                             $this.voverlay('hide');
+							};
                         });
                     }
 
@@ -163,8 +164,9 @@ Contact Url : https://github.com/svivekvarma
                         $(settings.modalCancelButtonTemplate()).addClass('voverlayModalCancelButton').appendTo('div.window[data-uniqueid=' + uniqueid + '] > div.voverlaymodalactioncontainer');
                         $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer > .voverlayModalCancelButton').click(function () {
                             //$('div.window[data-uniqueid=' + uniqueid + ']').voverlay('hide');
-                            settings.onModalCancel();
+                            if (settings.onModalCancel()){
                             $this.voverlay('hide');
+							};
                         });
                     }
 
