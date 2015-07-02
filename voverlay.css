@@ -17,6 +17,12 @@
     border: 2px solid rgb(99, 94, 94);
     border-radius: 5px;
     box-shadow: 1px 2px 5px black;
+   -webkit-transition: all 1s ease;
+       -moz-transition: all 1s ease;
+        -ie-transition: all 1s ease;
+         -o-transition: all 1s ease;
+            transition: all 1s ease;
+    
 }
 
     .window h2 {
@@ -68,4 +74,15 @@
 
 .voverlaymodalactioncontainer .voverlayModalYesButton, .voverlayModalNoButton,voverlayModalCancelButton {
     margin:0px 5px;
+}
+
+.hidden{ 
+    opacity: 0; 
+}
+
+.notransition{
+    -moz-transition: all 0s none !important;
+    -webkit-transition: all 0s none !important;
+    -o-transition: all 0s none !important;
+    transition: all 0s none !important;
 }
