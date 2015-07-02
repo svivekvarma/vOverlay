@@ -80,26 +80,37 @@ Contact Url : https://github.com/svivekvarma
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
             var calculatedheight = ($(window).height() - elemheight) / 2;
             if (calculatedwidth > settings.minSpacing) {
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("left",($(window).width() - elemwidth) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - elemwidth) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerWidth() - $('div.window[data-uniqueid=' + uniqueid + ']').width();
                 $('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - totalpaddingspacing);
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("left",($(window).width() - ($(window).width() - settings.minSpacing)) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - ($(window).width() - settings.minSpacing)) / 2 + 'px');
                 //$('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - 60);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-x': 'scroll' });
             }
             if (calculatedheight > settings.minSpacing) {
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top",($(window).height() - elemheight) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - elemheight) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerHeight() - $('div.window[data-uniqueid=' + uniqueid + ']').height();
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top",($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
 
                 $('div.window[data-uniqueid=' + uniqueid + ']').height($(window).height() - totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-y': 'scroll' });
             }
 
+        },
+        getTransition: function (duration, transitionfunction) {
+            if (transitionfunction === undefined) {
+                transitionfunction = 'ease-in-out';
+            }
+            var css = {};
+            css["-webkit-transition"] = "all " + duration + " " + transitionfunction;
+            css["-moz-transition"] = "all " + duration + " " + transitionfunction;
+            css["-o-transition"] = "all " + duration + " " + transitionfunction;
+            css["transition"] = "all " + duration + " " + transitionfunction;
+            return css;
         },
         animate: function (uniqueid) {
             var $this = $('div.window[data-uniqueid=' + uniqueid + ']:first > .voverlaycontent'), data = $this.data('voverlay');
@@ -108,31 +119,32 @@ Contact Url : https://github.com/svivekvarma
             var elemwidth = wrapper.outerWidth(true);
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
             var calculatedheight = ($(window).height() - elemheight) / 2;
-
+            var wrapperactualleft = wrapper.css('left');
             if (data.openAnimation === "fadein") {
-                $this.parent('.window').css('opacity', 1);
+                wrapper.css(voverlay.getTransition('.5s', 'ease-in-out'));
+                wrapper.css('opacity', 1);
                 return;
             }
             if (data.openAnimation === "slideinleft") {
                 var left = calculatedwidth + elemwidth;
-                wrapper.addClass('notransition');
+                wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
                 wrapper.css({
                     transform: 'translateX(-' + left + 'px)',
                     MozTransform: 'translateX(-' + left + 'px)',
                     WebkitTransform: 'translateX(-' + left + 'px)',
-                    msTransform: 'translateX(-' + left + 'px)',
-                    opacity: 1
-                });             
-                wrapper.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd',
-                    function () {
+                    msTransform: 'translateX(-' + left + 'px)' 
+                });
+                wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                    function (event) {
+                        wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
                         wrapper.css({
                             transform: 'translateX(0px)',
                             MozTransform: 'translateX(0px)',
                             WebkitTransform: 'translateX(0px)',
-                            msTransform: 'translateX(0px)'
+                            msTransform: 'translateX(0px)',
+                            opacity: 1 
                         });
-                        wrapper.removeClass('notransition');
-                    }); 
+                    });
                 return;
             }
         }
