@@ -55,12 +55,15 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.launchdemo1').click(function () {
+        $('.launchdemo1').click(function (e) {
             $('.example1').voverlay('show', { 
                 title: false, 
                 opacity: "0.24", 
                 closeOverride: false, 
-                openAnimation:"slideinleft",
+                openAnimation:"slideinbottom",
+                closeAnimation:"slideoutbottom",
+                pageX: e.pageX,
+                pageY: e.pageY,
                 onOpen: function () { console.log('Open event fired for overlay'); }, 
                 onClose: function () { console.log('Close event fired for overlay'); } });
         });

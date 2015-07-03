@@ -1,3 +1,4 @@
+/// <reference path="typings/jquery/jquery.d.ts"/>
 /*
 ==================================================================================================
 Author : Vivek Siruvuri
@@ -80,21 +81,21 @@ Contact Url : https://github.com/svivekvarma
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
             var calculatedheight = ($(window).height() - elemheight) / 2;
             if (calculatedwidth > settings.minSpacing) {
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - elemwidth) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("left",($(window).width() - elemwidth) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerWidth() - $('div.window[data-uniqueid=' + uniqueid + ']').width();
                 $('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - totalpaddingspacing);
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - ($(window).width() - settings.minSpacing)) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("left",($(window).width() - ($(window).width() - settings.minSpacing)) / 2 + 'px');
                 //$('div.window[data-uniqueid=' + uniqueid + ']').width($(window).width() - 60);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-x': 'scroll' });
             }
             if (calculatedheight > settings.minSpacing) {
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - elemheight) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top",($(window).height() - elemheight) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerHeight() - $('div.window[data-uniqueid=' + uniqueid + ']').height();
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top",($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
 
                 $('div.window[data-uniqueid=' + uniqueid + ']').height($(window).height() - totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-y': 'scroll' });
@@ -112,38 +113,203 @@ Contact Url : https://github.com/svivekvarma
             css["transition"] = "all " + duration + " " + transitionfunction;
             return css;
         },
-        animate: function (uniqueid) {
-            var $this = $('div.window[data-uniqueid=' + uniqueid + ']:first > .voverlaycontent'), data = $this.data('voverlay');
+        animate: function (uniqueid, data, isOpenAnimation, callback) {
+            //var $this = $('div.window[data-uniqueid=' + uniqueid + ']:first > .voverlaycontent');
             var wrapper = $('div.window[data-uniqueid=' + uniqueid + ']:first');
             var elemheight = wrapper.outerHeight(true);
             var elemwidth = wrapper.outerWidth(true);
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
             var calculatedheight = ($(window).height() - elemheight) / 2;
             var wrapperactualleft = wrapper.css('left');
-            if (data.openAnimation === "fadein") {
-                wrapper.css(voverlay.getTransition('.5s', 'ease-in-out'));
-                wrapper.css('opacity', 1);
-                return;
+            if (isOpenAnimation) {
+                if (data.openAnimation === "fadein") {
+                    wrapper.css(voverlay.getTransition('.5s', 'ease-in-out'));
+                    wrapper.css('opacity', 1);
+                    return;
+                }
+                if (data.openAnimation === "slideinleft") {
+                    var left = calculatedwidth + elemwidth;
+                    wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+                    wrapper.css({
+                        transform: 'translateX(-' + left + 'px)',
+                        MozTransform: 'translateX(-' + left + 'px)',
+                        WebkitTransform: 'translateX(-' + left + 'px)',
+                        msTransform: 'translateX(-' + left + 'px)'
+                    });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
+                            wrapper.css({
+                                transform: 'translateX(0px)',
+                                MozTransform: 'translateX(0px)',
+                                WebkitTransform: 'translateX(0px)',
+                                msTransform: 'translateX(0px)',
+                                opacity: 1
+                            });
+                        });
+                    return;
+                }
+                if (data.openAnimation === "slideinright") {
+                    var right = calculatedwidth + elemwidth;
+                    wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+                    wrapper.css({
+                        transform: 'translateX(' + right + 'px)',
+                        MozTransform: 'translateX(' + right + 'px)',
+                        WebkitTransform: 'translateX(' + right + 'px)',
+                        msTransform: 'translateX(' + right + 'px)'
+                    });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
+                            wrapper.css({
+                                transform: 'translateX(0px)',
+                                MozTransform: 'translateX(0px)',
+                                WebkitTransform: 'translateX(0px)',
+                                msTransform: 'translateX(0px)',
+                                opacity: 1
+                            });
+                        });
+                    return;
+                }
+                if (data.openAnimation === "slideintop") {
+                    var top = calculatedheight + elemheight;
+                    wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+                    wrapper.css({
+                        transform: 'translateY(-' + top + 'px)',
+                        MozTransform: 'translateY(-' + top + 'px)',
+                        WebkitTransform: 'translateY(-' + top + 'px)',
+                        msTransform: 'translateY(-' + top + 'px)'
+                    });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
+                            wrapper.css({
+                                transform: 'translateY(0px)',
+                                MozTransform: 'translateY(0px)',
+                                WebkitTransform: 'translateY(0px)',
+                                msTransform: 'translateY(0px)',
+                                opacity: 1
+                            });
+                        });
+                    return;
+                }
+                if (data.openAnimation === "slideinbottom") {
+                    var top = calculatedheight + elemheight;
+                    wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+                    wrapper.css({
+                        transform: 'translateY(' + top + 'px)',
+                        MozTransform: 'translateY(' + top + 'px)',
+                        WebkitTransform: 'translateY(' + top + 'px)',
+                        msTransform: 'translateY(' + top + 'px)'
+                    });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
+                            wrapper.css({
+                                transform: 'translateY(0px)',
+                                MozTransform: 'translateY(0px)',
+                                WebkitTransform: 'translateY(0px)',
+                                msTransform: 'translateY(0px)',
+                                opacity: 1
+                            });
+                        });
+                    return;
+                }
+                if (data.openAnimation === "materialswirlin") {
+                    var left = calculatedwidth + elemwidth;
+                    wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+                    wrapper.css({'left': left,
+                                  transform: 'scale(0)',
+                                MozTransform: 'scale(0)',
+                                WebkitTransform: 'scale(0)',
+                                msTransform: 'scale(0)'
+                        });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
+                            wrapper.css({
+                                transform: 'translateX(0px)',
+                                MozTransform: 'translateX(0px)',
+                                WebkitTransform: 'translateX(0px)',
+                                msTransform: 'translateX(0px)',
+                                opacity: 1
+                            });
+                        });
+                    return;
+                }
+            } else {
+                if (data.closeAnimation === "slideoutleft") {
+                    var left = calculatedwidth + elemwidth;
+                    wrapper.css(voverlay.getTransition('0.6s', 'ease-in-out'));
+                    wrapper.css({
+                        transform: 'translateX(-' + left + 'px)',
+                        MozTransform: 'translateX(-' + left + 'px)',
+                        WebkitTransform: 'translateX(-' + left + 'px)',
+                        msTransform: 'translateX(-' + left + 'px)',
+                        opacity: 0
+                    });
+                    wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                        function (event) {
+                            callback();
+                        });
+                    return;
+                }
             }
-            if (data.openAnimation === "slideinleft") {
-                var left = calculatedwidth + elemwidth;
-                wrapper.css(voverlay.getTransition('0.03s', 'ease-in-out'));
+
+            if (data.closeAnimation === "slideoutright") {
+                var right = calculatedwidth + elemwidth;
+                wrapper.css(voverlay.getTransition('0.6s', 'ease-in-out'));
                 wrapper.css({
-                    transform: 'translateX(-' + left + 'px)',
-                    MozTransform: 'translateX(-' + left + 'px)',
-                    WebkitTransform: 'translateX(-' + left + 'px)',
-                    msTransform: 'translateX(-' + left + 'px)' 
+                    transform: 'translateX(' + right + 'px)',
+                    MozTransform: 'translateX(' + right + 'px)',
+                    WebkitTransform: 'translateX(' + right + 'px)',
+                    msTransform: 'translateX(' + right + 'px)',
+                    opacity: 0
                 });
                 wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
                     function (event) {
-                        wrapper.css(voverlay.getTransition('.6s', 'ease-in-out'));
-                        wrapper.css({
-                            transform: 'translateX(0px)',
-                            MozTransform: 'translateX(0px)',
-                            WebkitTransform: 'translateX(0px)',
-                            msTransform: 'translateX(0px)',
-                            opacity: 1 
-                        });
+                        callback();
+                    });
+                return;
+            }
+            if (data.closeAnimation === "slideouttop") {
+                var top = calculatedheight + elemheight;
+                wrapper.css(voverlay.getTransition('0.5s', 'ease-in-out'));
+                wrapper.css({
+                    transform: 'translateY(-' + top + 'px)',
+                    MozTransform: 'translateY(-' + top + 'px)',
+                    WebkitTransform: 'translateY(-' + top + 'px)',
+                    msTransform: 'translateY(-' + top + 'px)',
+                    opacity: 0
+                });
+                wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                    function (event) {
+                        callback();
+                    });
+                return;
+            }
+            if (data.closeAnimation === "slideoutbottom") {
+                var top = calculatedheight + elemheight;
+                wrapper.css(voverlay.getTransition('0.5s', 'ease-in-out'));
+                wrapper.css({
+                    transform: 'translateY(' + top + 'px)',
+                    MozTransform: 'translateY(' + top + 'px)',
+                    WebkitTransform: 'translateY(' + top + 'px)',
+                    msTransform: 'translateY(' + top + 'px)',
+                    opacity: 0
+                });
+                wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                    function (event) {
+                        callback();
+                    });
+                return;
+            }
+            if (data.closeAnimation === "fadeout") {
+                wrapper.css(voverlay.getTransition('0.5s', 'ease-in-out'));
+                wrapper.css('opacity', 0);
+                wrapper.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+                    function (event) {
+                        callback();
                     });
                 return;
             }
@@ -251,7 +417,7 @@ Contact Url : https://github.com/svivekvarma
                 settings.privateconfigs.initialized = true;
                 settings.onOpen();
                 $this.data('voverlay', settings);
-                voverlay.animate(uniqueid);
+                voverlay.animate(uniqueid, settings, true);
             });
             return this;
         },
@@ -260,27 +426,28 @@ Contact Url : https://github.com/svivekvarma
                 if ($(this).parent('.window').length > 0) {
                     var $this = $(this), data = $this.data('voverlay');
                     var uniqueid = $this.parent('.window').attr('data-uniqueid');
-                    $('div.window[data-uniqueid=' + uniqueid + '] > h2').remove();
-                    $('div.window[data-uniqueid=' + uniqueid + '] > .voverlayclose').remove();
-                    $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer').remove();
-
-                    $('div.mask[data-uniqueid=' + uniqueid + ']').remove();
-                    //$this.parent('.window').remove();
-                    $this.unwrap();
-                    $this.hide();
-                    if ($this.hasClass('voverlayinline')) {
-                        $this.remove();
-                    }
-                    data.onClose();
-                    $this.removeData();
+                    voverlay.animate(uniqueid, data, false, function () {
+                        $('div.window[data-uniqueid=' + uniqueid + '] > h2').remove();
+                        $('div.window[data-uniqueid=' + uniqueid + '] > .voverlayclose').remove();
+                        $('div.window[data-uniqueid=' + uniqueid + '] > .voverlaymodalactioncontainer').remove();
+                        $('div.mask[data-uniqueid=' + uniqueid + ']').remove();
+                        //$this.parent('.window').remove();
+                        $this.unwrap();
+                        $this.hide();
+                        if ($this.hasClass('voverlayinline')) {
+                            $this.remove();
+                        }
+                        data.onClose();
+                        $this.removeData();
+                    });
                 }
             });
         },
         resize: function () {
             return this.each(function () {
                 if ($(this).parent('.window').length > 0) {
-                    var $this = $(this), data = $this.data('voverlay');
-                    uniqueid = $this.parent('.window').attr('data-uniqueid');
+                    var $this = $(this);
+                    var uniqueid = $this.parent('.window').attr('data-uniqueid');
                     voverlay.centerelement(uniqueid);
                 }
             });
@@ -300,7 +467,7 @@ Contact Url : https://github.com/svivekvarma
     $.voverlay = {};
     $.voverlay.popOverlay = function () {
         voverlay.hideTopMost();
-    }
+    };
 
     $.voverlay.show = function (options) {
         //voverlay.hideTopMost();
@@ -309,7 +476,7 @@ Contact Url : https://github.com/svivekvarma
         var $this = $('<div class="voverlayinline"></div>').attr('data-uniqueid', voverlay.getnewoverlayid()).html(settings.html).appendTo('body');
         $this.voverlay('show', settings);
         return settings.privateconfigs.uniqueid;
-    }
+    };
 
     $.voverlay.updateContent = function (options) {
         //voverlay.hideTopMost();
@@ -319,7 +486,5 @@ Contact Url : https://github.com/svivekvarma
         //var $this = $('<div class="voverlaycontent"></div>').html(settings.html);
         //$this.voverlay('show', settings);
         //return settings.privateconfigs.uniqueid;
-    }
-
-
+    };
 })(jQuery);
