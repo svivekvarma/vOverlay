@@ -1,0 +1,17 @@
+{
+  "name": "vOverlay",
+  "main": "vOverlay.js",
+  "homepage": "https://github.com/svivekvarma/vOverlay",
+  "authors": [
+    "Vivek Siruvuri <svivekvarma@gmail.com>"
+  ],
+  "description": "A jquery overlay plugin which can handle multiple instances of itself and calculate zindex",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
