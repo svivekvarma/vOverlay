@@ -254,7 +254,7 @@ Contact Url : https://github.com/svivekvarma
                         $this.remove();
                     }
                     data.onClose();
-                    $this.removeData();
+                    $this.removeData('voverlay');
                 }
             });
         },
