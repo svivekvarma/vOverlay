@@ -79,7 +79,7 @@ Contact Url : https://github.com/svivekvarma
             var elemheight = $('div.window[data-uniqueid=' + uniqueid + ']').outerHeight(true);
             var elemwidth = $('div.window[data-uniqueid=' + uniqueid + ']').outerWidth(true);
             var calculatedwidth = ($(window).width() - elemwidth) / 2;
-            var calculatedheight = ($(window).height() - elemheight) / 2;
+            var calculatedheight = (window.innerHeight - elemheight) / 2;
             if (calculatedwidth > settings.minSpacing) {
                 $('div.window[data-uniqueid=' + uniqueid + ']').css("left", ($(window).width() - elemwidth) / 2 + 'px');
 
@@ -91,13 +91,13 @@ Contact Url : https://github.com/svivekvarma
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-x': 'scroll' });
             }
             if (calculatedheight > settings.minSpacing) {
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - elemheight) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", (window.innerHeight - elemheight) / 2 + 'px');
 
             } else {
                 var totalpaddingspacing = settings.minSpacing + $('div.window[data-uniqueid=' + uniqueid + ']').innerHeight() - $('div.window[data-uniqueid=' + uniqueid + ']').height();
-                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", ($(window).height() - ($(window).height() - settings.minSpacing)) / 2 + 'px');
+                $('div.window[data-uniqueid=' + uniqueid + ']').css("top", (window.innerHeight - (window.innerHeight - settings.minSpacing)) / 2 + 'px');
 
-                $('div.window[data-uniqueid=' + uniqueid + ']').height($(window).height() - totalpaddingspacing);
+                $('div.window[data-uniqueid=' + uniqueid + ']').height(window.innerHeight - totalpaddingspacing);
                 $('div.window[data-uniqueid=' + uniqueid + ']').css({ 'overflow-y': 'scroll' });
             }
 
